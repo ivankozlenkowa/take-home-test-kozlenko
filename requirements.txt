@@ -1,4 +1,6 @@
 fastapi
 pandas
 numpy
+httpx
+pytest
 uvicorn
