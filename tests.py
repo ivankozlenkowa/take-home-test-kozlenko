@@ -12,6 +12,8 @@ class TestCompensationData:
         (
                 ({}, 200),  # no filters/parameters
                 ({'Timestamp[gte]': '01/01/2024'}, 200),  # filter by single parameter
+                ({'sort': 'Company Name,Timestamp'}, 200),  # sort by multiple columns
+                ({'Company Name[ne]': 'Abc123'}, 200),  # "ne" operator for text column
                 ({
                      'fields': 'Timestamp,Employment Type,Company Name,Total Base Salary in 2018 (in USD)',
                      'Total Base Salary in 2018 (in USD)[lte]': '24000',

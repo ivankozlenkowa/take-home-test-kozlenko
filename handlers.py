@@ -21,11 +21,11 @@ class CompensationDataHandler:
 
     @staticmethod
     def _preprocess_data(data_path: str) -> pd.DataFrame:
-        '''
+        """
         Preprocessing:
          - remove "NaN"
          - cast "Timestamp" column to proper data type
-        '''
+        """
         df = pd.read_csv(data_path)
         df = df.replace({np.nan: None})
         df = df.dropna()
@@ -76,14 +76,13 @@ class CompensationDataHandler:
                 # which turns into 'Company Nam' after stripping '[gte]'
                 column = param_k.split(found_param)[0]
                 self._validate_columns_exist(column)
-                if found_param != 'eq' and column not in self.numeric_columns + self.datetime_columns:
+                found_param = found_param.strip('[]')
+                if found_param not in ['eq', 'ne'] and column not in self.numeric_columns + self.datetime_columns:
                     # do not allow operators such as 'gte', 'lte' for non-numeric or non-datetime columns
                     raise HTTPException(
                         status_code=400,
                         detail=f'Column {column} does not support comparison operators'
                     )
-
-                found_param = found_param.strip('[]')
                 if found_param not in self.known_params:
                     raise HTTPException(
                         status_code=400,
